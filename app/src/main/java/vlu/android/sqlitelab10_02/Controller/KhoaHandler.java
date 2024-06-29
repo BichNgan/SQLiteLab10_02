@@ -83,10 +83,11 @@ public class KhoaHandler extends SQLiteOpenHelper {
     {
         SQLiteDatabase sqLiteDatabase = SQLiteDatabase.openDatabase
                 (PATH,null,SQLiteDatabase.CREATE_IF_NECESSARY);
-        String sql1 = "INSERT OR IGNORE INTO " + TABLE_NAME + " ("
-                + MK_COL + ", " + TK_COL + ") Values " +
-                "('" + k.getmKhoa() +"','" + k.getTenKhoa() + "')";
-        sqLiteDatabase.execSQL(sql1);
+        String sql = "INSERT OR IGNORE INTO " + TABLE_NAME + " ("
+                + MK_COL + ", " + TK_COL + ") " +
+                "Values ('" + k.getmKhoa()+"','" + k.getTenKhoa()+"')";
+        sqLiteDatabase.execSQL(sql);
+
         sqLiteDatabase.close();
     }
 

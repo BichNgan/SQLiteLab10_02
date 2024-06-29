@@ -8,6 +8,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -59,7 +60,6 @@ public class MainActivity extends AppCompatActivity {
         khoaHandler.initData();
         lsKhoa=khoaHandler.loadAllDataOfKhoa();
         dataLV = convertData(lsKhoa);
-
         adapter = new ArrayAdapter<>(getApplicationContext(),
                 androidx.appcompat.R.layout.support_simple_spinner_dropdown_item,dataLV);
         lvKhoa.setAdapter(adapter);
@@ -94,6 +94,43 @@ public class MainActivity extends AppCompatActivity {
                 Khoa k = lsKhoa.get(i);
                 edtMK.setText(k.getmKhoa());
                 edtTK.setText(k.getTenKhoa());
+            }
+        });
+        //----------------
+        //Insert 1 khoa vào Bảng Khoa
+        btnInsert.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String mk = edtMK.getText().toString();
+                String tk = edtTK.getText().toString();
+                if(mk.isEmpty() || tk.isEmpty())
+                {
+                    Toast.makeText(getApplicationContext(),"Du lieu rong",Toast.LENGTH_LONG).show();
+                }
+                else
+                {
+                    //kiem tra có makhoa nay chưa?
+                    for(int i=0;i<lsKhoa.size();i++)
+                    {
+                        if(lsKhoa.get(i).getmKhoa().equals(mk)) {
+                            Toast.makeText(getApplicationContext(), "Khoa da ton tai",
+                                    Toast.LENGTH_LONG).show();
+                            break;
+                        }
+                        else
+                        {
+                            Khoa k = new Khoa(mk,tk);
+                            khoaHandler.insertRecordIntoKhoaTable(k);
+
+                            lsKhoa=khoaHandler.loadAllDataOfKhoa();
+                            dataLV = convertData(lsKhoa);
+                            adapter = new ArrayAdapter<>(getApplicationContext(),
+                                    androidx.appcompat.R.layout.support_simple_spinner_dropdown_item,dataLV);
+                            lvKhoa.setAdapter(adapter);
+                        }
+
+                    }
+                }
             }
         });
     }
