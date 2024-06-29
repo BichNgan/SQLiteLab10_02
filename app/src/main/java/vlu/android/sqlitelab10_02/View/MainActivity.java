@@ -133,5 +133,37 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+
+        //-------------------------
+        //Update
+        btnUpdate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String mk = edtMK.getText().toString();
+                String tk = edtTK.getText().toString();
+                if(mk.isEmpty()||tk.isEmpty())
+                    Toast.makeText(getApplicationContext(),"Du lieu rong",Toast.LENGTH_LONG).show();
+                else
+                {
+                    for(int i=0;i<lsKhoa.size();i++)
+                    {
+                        if(lsKhoa.get(i).getmKhoa().equals(mk)) {
+                            Khoa k=new Khoa(mk,tk);
+                            khoaHandler.updateRecord(k);
+                            lsKhoa=khoaHandler.loadAllDataOfKhoa();
+                            dataLV = convertData(lsKhoa);
+                            adapter = new ArrayAdapter<>(getApplicationContext(),
+                                    androidx.appcompat.R.layout.support_simple_spinner_dropdown_item,dataLV);
+                            lvKhoa.setAdapter(adapter);
+                            break;
+                        }
+                        else
+                            Toast.makeText(getApplicationContext(),"Du lieu khong có trong bảng",Toast.LENGTH_LONG).show();
+                    }
+                }
+
+
+            }
+        });
     }
 }
