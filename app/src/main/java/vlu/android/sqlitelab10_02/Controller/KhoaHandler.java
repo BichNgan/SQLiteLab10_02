@@ -1,10 +1,15 @@
 package vlu.android.sqlitelab10_02.Controller;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import androidx.annotation.Nullable;
+
+import java.util.ArrayList;
+
+import vlu.android.sqlitelab10_02.Model.Khoa;
 
 public class KhoaHandler extends SQLiteOpenHelper {
 
@@ -35,7 +40,8 @@ public class KhoaHandler extends SQLiteOpenHelper {
     //Khoi tao du lieu ban dau cho bang Khoa
     public  void  initData()
     {
-        SQLiteDatabase sqLiteDatabase = SQLiteDatabase.openDatabase(PATH,null,SQLiteDatabase.CREATE_IF_NECESSARY);
+        SQLiteDatabase sqLiteDatabase = SQLiteDatabase.openDatabase
+                (PATH,null,SQLiteDatabase.CREATE_IF_NECESSARY);
         String sql1 = "INSERT OR IGNORE INTO " + TABLE_NAME + " ("
                 + MK_COL + ", " + TK_COL + ") Values ('1','CNTT')";
         sqLiteDatabase.execSQL(sql1);
@@ -49,6 +55,24 @@ public class KhoaHandler extends SQLiteOpenHelper {
                 + MK_COL + ", " + TK_COL + ") Values ('4','TCKT')";
         sqLiteDatabase.execSQL(sql4);
         sqLiteDatabase.close();
+    }
+
+    public ArrayList<Khoa> loadAllDataOfKhoa()
+    {
+        ArrayList<Khoa> lsKhoa = new ArrayList<>();
+        SQLiteDatabase sqLiteDatabase = SQLiteDatabase.openDatabase
+                (PATH,null,SQLiteDatabase.CREATE_IF_NECESSARY);
+        Cursor cursor = sqLiteDatabase.rawQuery
+                ("select * from " +TABLE_NAME,null);
+        cursor.moveToFirst();
+        do {
+            Khoa k =new Khoa();
+            k.setmKhoa(cursor.getString(0));
+            k.setTenKhoa(cursor.getString(1));
+            lsKhoa.add(k);
+        }while (cursor.moveToNext());
+        sqLiteDatabase.close();
+        return lsKhoa;
     }
 
     @Override
