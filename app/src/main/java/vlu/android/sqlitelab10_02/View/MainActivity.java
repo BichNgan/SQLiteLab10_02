@@ -2,6 +2,8 @@ package vlu.android.sqlitelab10_02.View;
 
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -61,8 +63,8 @@ public class MainActivity extends AppCompatActivity {
         adapter = new ArrayAdapter<>(getApplicationContext(),
                 androidx.appcompat.R.layout.support_simple_spinner_dropdown_item,dataLV);
         lvKhoa.setAdapter(adapter);
-
-
+    //---------------------------
+        addEvent();
     }
 
     ArrayList<String> convertData(ArrayList<Khoa>lsKhoa)
@@ -74,8 +76,6 @@ public class MainActivity extends AppCompatActivity {
         }
         return arrayListLV;
     }
-
-
     void addControl()
     {
         edtMK=(EditText) findViewById(R.id.edtMK);
@@ -83,5 +83,18 @@ public class MainActivity extends AppCompatActivity {
         btnInsert = (Button) findViewById(R.id.btnInsert);
         btnUpdate= (Button) findViewById(R.id.btnUpdate);
         lvKhoa = (ListView) findViewById(R.id.lvKhoa);
+    }
+
+    void addEvent()
+    {
+        //CHọn item hiển thị lên các edittext
+        lvKhoa.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Khoa k = lsKhoa.get(i);
+                edtMK.setText(k.getmKhoa());
+                edtTK.setText(k.getTenKhoa());
+            }
+        });
     }
 }

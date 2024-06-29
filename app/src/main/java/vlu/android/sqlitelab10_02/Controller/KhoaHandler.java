@@ -34,6 +34,9 @@ public class KhoaHandler extends SQLiteOpenHelper {
         String sql = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME +
                 "(" + MK_COL +" INTEGER NOT NULL UNIQUE, " +
                 TK_COL + " TEXT NOT NULL UNIQUE, PRIMARY KEY(" + MK_COL + "))";
+        String sql1 = "CREATE TABLE IF NOT EXISTS Khoa (makhoa INTEGER NOT NULL UNIQUE," +
+                "tenkhoa TEXT NOT NULL UNIQUE, PRIMARY KEY(makhoa))" ;
+
         sqLiteDatabase.execSQL(sql);
         sqLiteDatabase.close();
     }
@@ -74,9 +77,21 @@ public class KhoaHandler extends SQLiteOpenHelper {
         sqLiteDatabase.close();
         return lsKhoa;
     }
+    //-------------------
+    //Thêm 1 dòng vào bảng Khoa
+    public void insertRecordIntoKhoaTable (Khoa k)
+    {
+        SQLiteDatabase sqLiteDatabase = SQLiteDatabase.openDatabase
+                (PATH,null,SQLiteDatabase.CREATE_IF_NECESSARY);
+        String sql1 = "INSERT OR IGNORE INTO " + TABLE_NAME + " ("
+                + MK_COL + ", " + TK_COL + ") Values " +
+                "('" + k.getmKhoa() +"','" + k.getTenKhoa() + "')";
+        sqLiteDatabase.execSQL(sql1);
+        sqLiteDatabase.close();
+    }
+
 
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
-
     }
 }
